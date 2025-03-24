@@ -1,0 +1,30 @@
+{
+  "name": "thorium-nova-kiosk",
+  "version": "1.0.0",
+  "description": "Kiosk for the Thorium Spaceship Simulator Controls",
+  "keywords": [],
+  "author": "Alex Anderson",
+  "license": "Apache 2.0",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Thorium-Sim/thorium-nova-kiosk.git"
+  },
+  "scripts": {
+    "sign": "./scripts/notarize.sh",
+    "tauri": "tauri",
+    "lint": "biome lint ."
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.3.0",
+    "@tauri-apps/plugin-opener": "^2.2.6",
+    "@tauri-apps/plugin-shell": "^2.2.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.3.1"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}
