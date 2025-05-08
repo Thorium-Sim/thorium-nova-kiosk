@@ -35,6 +35,7 @@ impl APIManager {
                     .cmd
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
+                    .stderr(Stdio::piped())
                     .spawn();
 
                 match child {
@@ -42,7 +43,7 @@ impl APIManager {
                         self.child = Some(v);
                         let stdout = self.child.as_mut().unwrap().stdout.take().unwrap();
                         let stderr = self.child.as_mut().unwrap().stderr.take().unwrap();
-                        let app_handle = self.app.clone();
+                        let app_handle: AppHandle = self.app.clone();
                         thread::spawn(move || {
                             let reader = BufReader::new(stdout);
                             for line in reader.lines() {
@@ -54,13 +55,14 @@ impl APIManager {
                             }
                         });
 
+                        let app_handle2: AppHandle = self.app.clone();
                         thread::spawn(move || {
                             let reader = BufReader::new(stderr);
                             for line in reader.lines() {
                                 if let Ok(line) = line {
                                     println!("{}", line);
 
-                                    app_handle.emit("server_output", line).unwrap();
+                                    app_handle2.emit("server_output", line).unwrap();
                                 }
                             }
                         });
