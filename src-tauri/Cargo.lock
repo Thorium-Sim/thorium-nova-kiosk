@@ -3933,6 +3933,7 @@ dependencies = [
  "tauri-build",
  "tauri-plugin-opener",
  "tauri-plugin-shell",
+ "url",
 ]
 
 [[package]]

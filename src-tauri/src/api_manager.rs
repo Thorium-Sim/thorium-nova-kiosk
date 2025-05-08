@@ -46,6 +46,8 @@ impl APIManager {
                             let reader = BufReader::new(stdout);
                             for line in reader.lines() {
                                 if let Ok(line) = line {
+                                    println!("{}", line);
+
                                     app_handle.emit("server_output", line).unwrap();
                                 }
                             }
