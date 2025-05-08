@@ -41,9 +41,21 @@ impl APIManager {
                     Ok(v) => {
                         self.child = Some(v);
                         let stdout = self.child.as_mut().unwrap().stdout.take().unwrap();
+                        let stderr = self.child.as_mut().unwrap().stderr.take().unwrap();
                         let app_handle = self.app.clone();
                         thread::spawn(move || {
                             let reader = BufReader::new(stdout);
+                            for line in reader.lines() {
+                                if let Ok(line) = line {
+                                    println!("{}", line);
+
+                                    app_handle.emit("server_output", line).unwrap();
+                                }
+                            }
+                        });
+
+                        thread::spawn(move || {
+                            let reader = BufReader::new(stderr);
                             for line in reader.lines() {
                                 if let Ok(line) = line {
                                     println!("{}", line);
